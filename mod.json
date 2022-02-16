@@ -1,0 +1,15 @@
+{
+    "Name": "Battery Gremlins Mode",
+    "LoadPriority": 0,
+    "Version": "1.0.0",
+    "RequiredOnClient": false,
+    "Scripts": [
+        {
+            "Path": "gamemode_bg.nut",
+            "RunOn": "SERVER",
+            "ServerCallback": {
+                "Before": "GamemodeBgInit"
+            }
+        }
+    ]
+}
