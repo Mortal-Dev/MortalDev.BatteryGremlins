@@ -30,7 +30,7 @@ void function OnRodeoBattery( entity player, entity titan )
 	titan.SetHealth(titan.GetMaxHealth())
 
 	//take away their battery, then add points to their teams score
-	AddTeamScore( player.GetTeam() , 3 )
+	AddTeamScore( player.GetTeam() , 2 )
 	Rodeo_RemoveAllBatteriesOffPlayer( player )
 }
 
@@ -46,7 +46,7 @@ void function OnPlayerDeath(entity player, var damageInfo)
 	if (player.GetTeam() == TEAM_MILITIA)
 	{
 		//death already counts as one point, so we just add one more
-		AddTeamScore(TEAM_IMC, 1)
+		AddTeamScore(TEAM_IMC, 2)
 	}
 }
 
