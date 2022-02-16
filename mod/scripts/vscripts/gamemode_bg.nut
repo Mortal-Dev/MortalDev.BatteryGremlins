@@ -8,7 +8,7 @@ void function GamemodeBgInit()
 	AddCallback_OnPlayerRespawned(SendPlayerAnnouncement)
 	AddCallback_OnPilotBecomesTitan(SendTitanAnnouncement)
     AddCallback_OnPlayerGetsNewPilotLoadout(RemoveAntiTitanWeapon)
-    Riff_ForceTitanAvailability( eTitanAvailability.Never )
+    Riff_ForceTitanAvailability(eTitanAvailability.Never)
 }
 
 void function OnEntityDamage( entity ent, var damageInfo) 
@@ -88,7 +88,7 @@ void function SetPlayerMilitia(entity player)
 	SetTeam(player, TEAM_MILITIA)
 }
 
-void function SendAnnouncement( entity player, string text, string subText = "", float duration = 7.0, string soundAlias = "" )
+void function SendAnnouncement( entity player, string text, string subText = "", float duration = 7.0 )
 {
 	// Build the message on the client
 	string sendMessage
@@ -102,6 +102,4 @@ void function SendAnnouncement( entity player, string text, string subText = "",
 		}
 	}
 	Remote_CallFunction_NonReplay( player, "Dev_PrintClientMessage", duration )
-	if ( soundAlias != "" )
-		EmitSoundOnEntity( player, soundAlias )
 }
