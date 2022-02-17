@@ -8,12 +8,12 @@ void function GamemodeBgInit()
 	AddCallback_OnPlayerRespawned(SendPlayerAnnouncement)
 	AddCallback_OnPilotBecomesTitan(SendTitanAnnouncement)
     AddCallback_OnPlayerGetsNewPilotLoadout(RemoveAntiTitanWeapon)
-    Riff_ForceTitanAvailability(eTitanAvailability.Never)
+    //Riff_ForceTitanAvailability( eTitanAvailability.Never )
 }
 
 void function OnEntityDamage( entity ent, var damageInfo) 
 {
-	if (ent.IsTitan() && ent.GetTeam() == TEAM_IMC)
+	if (ent.GetTeam() == TEAM_IMC)
 	{
 		ent.SetHealth(ent.GetMaxHealth())
 	}
@@ -21,7 +21,20 @@ void function OnEntityDamage( entity ent, var damageInfo)
 
 void function RemoveAntiTitanWeapon( entity player, PilotLoadoutDef loadout )
 {
+	print("here")
+	
+	array<entity> weapons = player.GetMainWeapons()
+	foreach ( index, weaponEnt in weapons )
+	{
+		string weaponName = weaponEnt.GetWeaponClassName()
 
+		print(weaponEnt.GetWeaponClassName())
+
+		if (weaponName == "mp_weapon_defender" || weaponName == "mp_weapon_mgl" || weaponName == "mp_weapon_arc_launcher" || weaponName == "mp_weapon_rocket_launcher")
+		{
+			player.TakeWeaponNow( weaponName )
+		}
+	}
 }
 
 //player finishes rodeoing
@@ -30,7 +43,7 @@ void function OnRodeoBattery( entity player, entity titan )
 	titan.SetHealth(titan.GetMaxHealth())
 
 	//take away their battery, then add points to their teams score
-	AddTeamScore( player.GetTeam() , 2 )
+	AddTeamScore( player.GetTeam() , 3 )
 	Rodeo_RemoveAllBatteriesOffPlayer( player )
 }
 
@@ -46,7 +59,7 @@ void function OnPlayerDeath(entity player, var damageInfo)
 	if (player.GetTeam() == TEAM_MILITIA)
 	{
 		//death already counts as one point, so we just add one more
-		AddTeamScore(TEAM_IMC, 2)
+		AddTeamScore(TEAM_IMC, 1)
 	}
 }
 

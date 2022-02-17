@@ -5,7 +5,7 @@
     "RequiredOnClient": false,
     "Scripts": [
         {
-            "Path": "gamemode_bg.nut",
+            "Path": "BatteryGremlinsMode.nut",
             "RunOn": "SERVER",
             "ServerCallback": {
                 "Before": "GamemodeBgInit"
