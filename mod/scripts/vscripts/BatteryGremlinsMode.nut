@@ -109,7 +109,7 @@ void function SendPlayerAnnouncement(entity player)
 	}
 }
 
-void function SetPlayerTeam( entity playe r) 
+void function SetPlayerTeam( entity player) 
 {	
 	if (GetGameState() != eGameState.Playing) return
 
