@@ -93,7 +93,8 @@ void function SpawnPlayerIMCAsTitan(entity player)
 {
 	SetTeam(player, TEAM_IMC)
 
-	player.Die();
+	if (IsAlive(player)) player.Die();
+	
 	RespawnAsTitan(player, false)
 }
 
