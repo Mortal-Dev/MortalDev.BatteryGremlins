@@ -17,7 +17,7 @@ void function OnPlayerDisconnect( entity player )
 	{
 		//when imc titan disconnects, create a new imc player randomly, but only if there's 1 or more players
 		
-		if (GetPlayerArray().len() == 0) return
+		if (GetPlayerArray().len() == 1 && GetPlayerArray()[0] == player) return
 
 		SpawnPlayerIMCAsTitan(GetPlayerArray()[RandomInt(GetPlayerArray().len() - 1)])
 	}
