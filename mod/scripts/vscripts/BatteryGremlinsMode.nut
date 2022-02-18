@@ -4,11 +4,23 @@ void function GamemodeBgInit()
 {
 	AddOnRodeoEndedCallback(OnRodeoBattery)
 	AddCallback_GameStateEnter(eGameState.Playing, SetUpPlayers)
-	AddCallback_OnClientConnected(SetPlayerMilitia)
+	AddCallback_OnClientConnected(SetPlayerTeam)
 	AddCallback_OnPlayerRespawned(SendPlayerAnnouncement)
 	AddCallback_OnPilotBecomesTitan(SendTitanAnnouncement)
     AddCallback_OnPlayerGetsNewPilotLoadout(RemoveAntiTitanWeapon)
-    //Riff_ForceTitanAvailability( eTitanAvailability.Never )
+	AddCallback_OnClientDisconnected(OnPlayerDisconnect)
+}
+
+void function OnPlayerDisconnect( entity player )
+{
+	if (player.GetTeam() == TEAM_IMC)
+	{
+		//when imc titan disconnects, create a new imc player randomly, but only if there's 1 or more players
+		
+		if (GetPlayerArray().len() == 0) return
+
+		SpawnPlayerIMCAsTitan(GetPlayerArray()[RandomInt(GetPlayerArray().len() - 1)])
+	}
 }
 
 void function OnEntityDamage( entity ent, var damageInfo) 
@@ -21,8 +33,6 @@ void function OnEntityDamage( entity ent, var damageInfo)
 
 void function RemoveAntiTitanWeapon( entity player, PilotLoadoutDef loadout )
 {
-	print("here")
-	
 	array<entity> weapons = player.GetMainWeapons()
 	foreach ( index, weaponEnt in weapons )
 	{
@@ -65,6 +75,9 @@ void function OnPlayerDeath(entity player, var damageInfo)
 
 void function SetUpPlayers()
 {
+	Riff_ForceTitanAvailability( eTitanAvailability.Never )
+	Riff_ForceTitanExitEnabled( eTitanExitEnabled.Never )
+
     array<entity> players = GetPlayerArray()
 
 	int playerIndex = RandomInt(players.len())
@@ -96,9 +109,18 @@ void function SendPlayerAnnouncement(entity player)
 	}
 }
 
-void function SetPlayerMilitia(entity player) 
+void function SetPlayerTeam( entity playe r) 
 {	
-	SetTeam(player, TEAM_MILITIA)
+	if (GetGameState() != eGameState.Playing) return
+
+	if (GetPlayerArray().len() == 1)
+	{
+		SpawnPlayerIMCAsTitan( player )
+	}
+	else
+	{
+		SetTeam(player, TEAM_MILITIA)
+	}
 }
 
 void function SendAnnouncement( entity player, string text, string subText = "", float duration = 7.0 )
