@@ -94,7 +94,7 @@ void function SpawnPlayerIMCAsTitan(entity player)
 	SetTeam(player, TEAM_IMC)
 
 	if (IsAlive(player)) player.Die();
-	
+
 	RespawnAsTitan(player, false)
 }
 
@@ -112,9 +112,11 @@ void function SendPlayerAnnouncement(entity player)
 
 void function SetPlayerTeam( entity player) 
 {	
-	if (GetGameState() != eGameState.Playing) return
-
-	if (GetPlayerArray().len() == 1)
+	if (GetGameState() != eGameState.Playing)
+	{
+		SetTeam(player, TEAM_MILITIA)
+	}
+	else if (GetPlayerArray().len() == 1)
 	{
 		SpawnPlayerIMCAsTitan( player )
 	}
