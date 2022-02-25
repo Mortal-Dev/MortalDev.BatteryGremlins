@@ -15,7 +15,8 @@ void function OnPlayerDisconnect( entity player )
 {
 	if (player.GetTeam() == TEAM_IMC)
 	{
-		//when imc titan disconnects, create a new imc player randomly, but only if there's 1 or more players
+		//when imc titan disconnects, create a new imc player randomly, but only if there's 1 
+		//or more players that aren't the disconnecing player
 		
 		if (GetPlayerArray().len() == 1 && GetPlayerArray()[0] == player) return
 
@@ -69,7 +70,7 @@ void function OnPlayerDeath(entity player, var damageInfo)
 	if (player.GetTeam() == TEAM_MILITIA)
 	{
 		//death already counts as one point, so we just add one more
-		AddTeamScore(TEAM_IMC, 1)
+		AddTeamScore(TEAM_IMC, 2)
 	}
 }
 
